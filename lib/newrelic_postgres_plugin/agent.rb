@@ -71,6 +71,11 @@ module NewRelic::PostgresPlugin
       $stderr.puts "#{e}: #{e.backtrace.join("\n  ")}"
     end
 
+    def report_metric *args
+      $stdout.puts args.inspect
+      super *args
+    end
+
     def report_derived_metric(name, units, value)
       if previous_value = @previous_metrics[name]
         report_metric name, units, (value - previous_value)
@@ -79,7 +84,6 @@ module NewRelic::PostgresPlugin
       end
       @previous_metrics[name] = value
     end
-
 
     def report_backend_metrics
       @connection.exec(backend_query) do |result|
