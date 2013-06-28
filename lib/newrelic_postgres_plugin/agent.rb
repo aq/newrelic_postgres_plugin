@@ -71,10 +71,9 @@ module NewRelic::PostgresPlugin
       $stderr.puts "#{e}: #{e.backtrace.join("\n  ")}"
     end
 
-    def report_metric name, *args
-      name.prepend 'Custom/'
-      $stdout.puts ([name]+args).inspect
-      super name, *args
+    def report_metric *args
+      $stdout.puts args.inspect
+      super *args
     end
 
     def report_derived_metric(name, units, value)
